@@ -13,7 +13,7 @@ const config = {
         tracking:{
           environment: 'production',
           initialfetchtimeout:3000,
-          fetchfrequency:6000,
+          fetchfrequency:30000,
           embed: { // Only needed if you want to use the 'embed.html' demo
               email: "dcd_demo@here.com",
               password: "2Hshu7ta5NKfpfM",
