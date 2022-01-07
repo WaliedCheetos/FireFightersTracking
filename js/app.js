@@ -6,6 +6,7 @@ app = {
 map: null,
 HEREGeocoder: null,
 HERETracking,
+trackingId: null,
 HEREAuthenticator : null,
 timeoutTimer :  null,
 intervalTimer : null,
@@ -263,7 +264,22 @@ setLoading: function(isLoading) {
  customUI.prototype.onButtonClick = function (evt) {
      'use strict'; if (evt.currentTarget.getState() === 'down') {
        //venuesProvider.activeVenue.setActiveLevelIndex(1);
-         console.info(`WaliedCheetos - INFO : Hollla, you just clicked on the new custom UI element.`);
+        //  console.info(`WaliedCheetos - INFO : Hollla, you just clicked on the new custom UI element.`);
+
+         if(this.deviceLocationMarker){
+          // get the shape's bounding box and adjust the camera position
+          this.map.getViewModel().setLookAtData({
+           position: this.deviceLocationMarker.getGeometry(),
+          zoom: 19,
+        }, true);
+}
+else{
+ this.map.getViewModel().setLookAtData({
+   position: this.map.getObjects()[0].getGeometry(),
+   zoom: 19,
+}, true);
+ 
+}
      }
  };
  
@@ -296,15 +312,15 @@ onVenueLevelChange: function(event) {
             this.HEREAuthenticator.login(config.hereCredentials.tracking.embed.email, config.hereCredentials.tracking.embed.password);
 
             const query = this.parseQueryStrings(window.location.search);
-            const trackingId = query.trackingId;
+            this.trackingId = query.trackingId;
 
 
   // If we aren't logged in, redirect to login page
-  if (this.HEREAuthenticator.isLoggedIn() && trackingId) {
-    // HEREMap.onLoad(update);
+  if (this.HEREAuthenticator.isLoggedIn() && this.trackingId) {
 
-      this.intervalTimer = setInterval(() => this.fetchDeviceTraces(trackingId, this.map), config.hereCredentials.tracking.fetchfrequency);
-   this.addEventListeners();
+      // this.intervalTimer = setInterval(() => this.fetchDeviceTraces(trackingId, this.map), config.hereCredentials.tracking.fetchfrequency);
+      this.fetchDeviceTraces(this.trackingId, this.map);
+      this.addEventListeners();
     // map = HEREMap.map(document.querySelector('#map'), [52.5, 13.4], 14);
 
   } else {
@@ -342,7 +358,7 @@ onVenueLevelChange: function(event) {
                 && 
                 deviceShadow.reported.position.lng) {
 
-               console.debug(`WaliedCheetos -  DEBUG  : ${JSON.stringify(deviceShadow)}`);
+              //  console.debug(`WaliedCheetos -  DEBUG  : ${JSON.stringify(deviceShadow)}`);
                
                //update address info
                app.retrieveDeviceShadowAddress(deviceShadow);
@@ -378,15 +394,15 @@ onVenueLevelChange: function(event) {
                         });
                     }
 
-                    // get the shape's bounding box and adjust the camera position
-     map.getViewModel().setLookAtData({
-       position: deviceShadow.reported.position 
-      //zoom: this.config.map.zoom,
-      //bounds: venue.getBoundingBox(),
-      //tilt: this.config.map.tilt,
-      //heading: this.config.map.heading,
-      //incline: this.config.map.incline
-    }, true);
+    //                 // get the shape's bounding box and adjust the camera position
+    //  map.getViewModel().setLookAtData({
+    //    position: deviceShadow.reported.position 
+    //   //zoom: this.config.map.zoom,
+    //   //bounds: venue.getBoundingBox(),
+    //   //tilt: this.config.map.tilt,
+    //   //heading: this.config.map.heading,
+    //   //incline: this.config.map.incline
+    // }, true);
                     // Show the time the shadow was last updated
                     document.querySelector('time').innerHTML = 'Last updated: ' + (new Date(deviceShadow.reported.timestamp));
                     app.setLoading(false);
@@ -395,7 +411,9 @@ onVenueLevelChange: function(event) {
                 this.setLoading(false);
                 console.debug(`WaliedCheetos -  DEBUG  : this device has not reported a position`);
             }
-            this.timeoutTimer = setTimeout(this.fetchDeviceTraces, config.hereCredentials.tracking.initialfetchtimeout);
+            // this.timeoutTimer = setTimeout(this.fetchDeviceTraces, config.hereCredentials.tracking.initialfetchtimeout);
+            this.timeoutTimer = setTimeout(() => app.fetchDeviceTraces(app.trackingId, app.map), config.hereCredentials.tracking.fetchfrequency);
+          
           });
 
     },
