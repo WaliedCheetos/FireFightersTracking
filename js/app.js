@@ -404,7 +404,7 @@ onVenueLevelChange: function(event) {
     //   //incline: this.config.map.incline
     // }, true);
                     // Show the time the shadow was last updated
-                    document.querySelector('time').innerHTML = 'Last updated: ' + (new Date(deviceShadow.reported.timestamp));
+                    document.querySelector('time').innerHTML = ' </br> Last updated: ' + (new Date(deviceShadow.reported.timestamp));
                     app.setLoading(false);
 
                 } else {
@@ -426,7 +426,13 @@ try {
       };
 
     this.HEREGeocoder.reverseGeocode(reverseGeocodingParameters, function(address){
-        document.querySelector('address').innerHTML = address.items[0].address.label;
+      var indoorAddressInfo = '';
+
+      if (deviceShadow.reported.position.type.toUpperCase() === 'INDOOR') {
+         indoorAddressInfo = `Floor ID: ${deviceShadow.reported.position.floor.id} - Floor name: ${deviceShadow.reported.position.floor.name} - Floor level: ${deviceShadow.reported.position.floor.level}`;
+        }
+
+        document.querySelector('address').innerHTML = `${indoorAddressInfo} </br> ${address.items[0].address.label} </br>`;
     }, function(error){
         console.error(`WaliedCheetos - Reverese Geocoding ERROR : ${error}`);
     });
