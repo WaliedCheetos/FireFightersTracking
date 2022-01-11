@@ -428,9 +428,11 @@ try {
     this.HEREGeocoder.reverseGeocode(reverseGeocodingParameters, function(address){
       var indoorAddressInfo = '';
 
-      if (deviceShadow.reported.position.type.toUpperCase() === 'INDOOR') {
-         indoorAddressInfo = `Floor ID: ${deviceShadow.reported.position.floor.id} - Floor name: ${deviceShadow.reported.position.floor.name} - Floor level: ${deviceShadow.reported.position.floor.level}`;
+      if (deviceShadow.reported.position.type != undefined) {
+        if (deviceShadow.reported.position.type.toUpperCase() === 'INDOOR') {
+          indoorAddressInfo = `Floor ID: ${deviceShadow.reported.position.floor.id} - Floor name: ${deviceShadow.reported.position.floor.name} - Floor level: ${deviceShadow.reported.position.floor.level}`;
         }
+      }
 
         document.querySelector('address').innerHTML = `${indoorAddressInfo} </br> ${address.items[0].address.label} </br>`;
     }, function(error){
