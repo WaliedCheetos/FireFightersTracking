@@ -1,4 +1,4 @@
-app = {
+var app = {
 
      
 //#region global variables
@@ -121,10 +121,15 @@ setLoading: function(isLoading) {
     // Initialize HERE Map
     //const platform = new H.service.Platform({ apikey: hereCredentials.apikey });
     const platform = new H.service.Platform({ apikey: config.hereCredentials.apikey });
-    const defaultLayers = platform.createDefaultLayers();
+    const defaultLayers = platform.createDefaultLayers({
+      pois: true, 
+    });
     
     this.map = new H.Map(document.getElementById('map'), defaultLayers.vector.normal.map, {
-        pixelRatio: window.devicePixelRatio || 1
+      center: {lat:config.mapCenter.lat, lng:config.mapCenter.lng},
+      zoom:config.mapCenter.zoom,
+      pixelRatio: window.devicePixelRatio || 1,
+      padding: {top: 50, left: 50, bottom: 50, right: 50}
     });
     
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
@@ -198,13 +203,13 @@ setLoading: function(isLoading) {
         this.onVenueLevelChange(event);
   });
 
-  venue.setHighlightedGeometries(true, venue.getGeometries(), 
-    {
-        fillColor: '#FFFFCC',
-        outlineColor: '#FFFFCC',
-        outlineWidth: 1
+  // venue.setHighlightedGeometries(true, venue.getGeometries(), 
+  //   {
+  //       fillColor: '#FFFFCC',
+  //       outlineColor: '#FFFFCC',
+  //       outlineWidth: 1
       
-    });
+  //   });
   
 //   venue.getGeometries().forEach((venueGeomtry)=>{
 //     venueGeomtry.addEventListener('tap', (event) => {
