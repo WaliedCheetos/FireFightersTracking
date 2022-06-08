@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>Animated markers</title>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <!-- <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-venues.js"></script> -->
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1.30.15/mapsjs-venues.js"></script>
+  <body >
+
+   
+    <div id="map" style="width:77vw;height:77vh;"></div>
+  </br>
+</br>
+
+<input type="button" value="track" id="track" onclick="createMarkers()">
+   
+    <script type="text/javascript">
+        /**
+ * Create markers
+ */
+function createMarkers() {
+// create SVG Dom Icon
+  var svg = `<svg xmlns="http://www.w3.org/2000/svg" class="svg-icon" width="10px" height="10px">
+    <circle cx="5" cy="5" r="4" fill="rgb(250, 127, 0)" stroke-width="1" stroke="black" opacity="1"/>
+    </svg>`,
+    domIcon = new H.map.DomIcon(svg),
+    markers = [],
+    // array of initial positions of 40 markers
+
+    initialPositions = [
+      [49.606945, 8.368333]
+];
+    initialPositions_ = [
+      [49.606945, 8.368333],
+      [50.98194, 12.50638],
+      [51.83169, 12.19096],
+      [52.19585, 14.58753],
+      [51.30805, 13.55555],
+      [51.36305, 11.94083],
+      [51.55222, 12.05388],
+      [51.29360, 13.35611],
+      [53.30638, 12.75222],
+      [52.58055, 13.91666],
+      [52.20360, 13.15638],
+      [54.03825, 12.71051],
+      [50.91527, 11.71444],
+      [52.91888, 12.42527],
+      [52.07361, 11.62638],
+      [51.36333, 14.94999],
+      [53.83277, 13.66861],
+      [51.88944, 14.53194],
+      [51.29694, 14.12749],
+      [52.38000, 13.52250],
+      [51.13280, 13.76720],
+      [50.97980, 10.95810],
+      [50.02233, 8.57055],
+      [52.13460, 7.68482],
+      [53.63040, 9.98822],
+      [52.47259, 13.40390],
+      [50.86589, 7.14273],
+      [51.22701, 6.76677],
+      [48.35380, 11.7861],
+      [49.49869, 11.07805],
+      [51.42388, 12.23308],
+      [49.21459, 7.10950],
+      [48.68989, 9.22196],
+      [52.35970, 13.28769],
+      [52.46110, 9.68479],
+      [53.04750, 8.78665],
+      [49.69999, 8.64583],
+      [49.94869, 7.26388],
+      [49.47305, 8.51416],
+      [51.03499, 8.68083]
+    ];
+
+//     var fireFighter01 = [
+//   [25.2046, 55.3755]
+// ];
+//     var fireFighter01_locs = [
+//   [25.2046, 55.3755],
+// [25.2046, 55.3755],
+// [25.2045, 55.3755],
+// [25.2045, 55.3756],
+// [25.2045, 55.3756],
+// [25.2045, 55.3756],
+// [25.2044, 55.3756],
+// [25.2044, 55.3756],
+// [25.2044, 55.3756],
+// [25.2044, 55.3755],
+// [25.2044, 55.3755],
+// [25.2044, 55.3755],
+// [25.2043, 55.3755],
+// [25.2043, 55.3755],
+// [25.2043, 55.3755],
+// [25.2043, 55.3755],
+// [25.2043, 55.3755],
+// [25.2042, 55.3754],
+// [25.2042, 55.3754],
+// [25.2042, 55.3755],
+// [25.2042, 55.3755],
+// [25.2043, 55.3755],
+// [25.2043, 55.3754],
+// [25.2044, 55.3755],
+// [25.2044, 55.3754],
+// [25.2044, 55.3754],
+// [25.2045, 55.3754],
+// [25.2045, 55.3755],
+// [25.2045, 55.3756],
+// [25.2045, 55.3756],
+// [25.2046, 55.3755]
+//       ];
+
+var fireFighter01_locs1 = [
+    [25.2045539, 55.3755021],
+[25.2045519, 55.3755192],
+[25.2045508, 55.3755354],
+[25.2045494, 55.3755485],
+[25.2045355, 55.3755559],
+[25.2045141, 55.3755491],
+[25.2044972, 55.3755581]
+[25.2044907, 55.3755662],
+[25.2044811, 55.3755721],
+[25.2044761, 55.3755759],
+[25.2044687, 55.3755787],
+[25.2044575, 55.3755802],
+[25.2044496, 55.3755796],
+[25.2044363, 55.3755844],
+[25.2044298, 55.3755812],
+[25.2044194, 55.3755774],
+[25.2044117, 55.3755792],
+[25.2044068, 55.3755833],
+[25.204402, 55.3756093],
+[25.204404, 55.3756229],
+[25.2043991, 55.3756018],
+[25.2043959, 55.3755793],
+[25.2043918, 55.3755591],
+ [25.204393, 55.3755497],
+ [25.204393, 55.3755335],
+ [25.2043945, 55.3755139],
+ [25.2043925, 55.3755044],
+ [25.2043929, 55.3754955],
+ [25.2043905, 55.3754932],
+ [25.2043937, 55.3754779],
+ [25.20439, 55.3754735],
+ [25.204384, 55.3754703],
+ [25.2043738, 55.3754658],
+ [25.2043649, 55.3754824],
+ [25.2043608, 55.3754946],
+ [25.2043709, 55.3755085],
+ [25.204373, 55.3754968],
+ [25.2043693, 55.375486],
+ [25.2043661, 55.3754649],
+ [25.2043636, 55.3754604],
+ [25.2043519, 55.3754568],
+ [25.2043371, 55.3754564],
+ [25.2043241, 55.3754559],
+ [25.2043171, 55.3754501],
+ [25.2043135, 55.3754434],
+ [25.2043127, 55.3754335],
+ [25.2043074, 55.3754523],
+ [25.2043001, 55.3754627],
+ [25.2042855, 55.375469],
+ [25.2042761, 55.3754604],
+ [25.2042631, 55.3754559],
+ [25.2042513, 55.375451],
+ [25.2042452, 55.3754438],
+ [25.2042387, 55.3754348],
+ [25.2042302, 55.3754447],
+ [25.2042192, 55.3754474],
+ [25.2042062, 55.3754532],
+ [25.2041908, 55.3754532],
+ [25.2042058, 55.3754564],
+ [25.2042195, 55.3754573],
+ [25.2042382, 55.3754519],
+ [25.2042511, 55.375451]
+, [25.2042741, 55.3754669]
+, [25.2042907, 55.3754764]
+, [25.2043049, 55.375479]
+, [25.2043106, 55.3754701]
+, [25.204319, 55.3754544]
+, [25.2043276, 55.3754499]
+, [25.2043345, 55.3754557]
+, [25.204348, 55.3754586]
+, [25.2043606, 55.3754617]
+, [25.2043703, 55.375464]
+, [25.204381, 55.3754678]
+, [25.2043888, 55.3754615]
+, [25.2043945, 55.3754597]
+, [25.2043985, 55.3754422]
+, [25.2043981, 55.3754296]
+, [25.2044087, 55.3754256]
+, [25.2044197, 55.3754238]
+, [25.2044306, 55.3754238]
+,[25.2044428, 55.3754242]
+, [25.2044546, 55.375426]
+, [25.2044599, 55.3754206]
+, [25.2044631, 55.375413]
+, [25.2044676, 55.3754063]
+, [25.2044684, 55.3754094]
+, [25.2044652, 55.3754265]
+, [25.2044761, 55.3754296]
+, [25.2044814, 55.375422]
+, [25.2044721, 55.3754482]
+, [25.2044737, 55.3754644]
+, [25.2044694, 55.375487]
+, [25.2044686, 55.3755081]
+, [25.2044735, 55.3755243]
+, [25.2044763, 55.3755436]
+, [25.2044845, 55.3755499]
+, [25.2044975, 55.375553]
+, [25.2045109, 55.3755526]
+, [25.2045227, 55.375553]
+, [25.204532, 55.3755539]
+, [25.204544, 55.3755517]
+, [25.2045525, 55.37554]
+, [25.2045627, 55.3755122]
+, [25.2045517, 55.3755027]
+,[25.2045415, 55.3755095]
+];
+var fireFighter01_locs = [[25.2045635, 55.3754857],
+[25.2045572, 55.3755063],
+[25.2045486, 55.3755306],
+[25.2045476, 55.3755479],
+[25.2045461, 55.3755565],
+[25.2045304, 55.3755548],
+[25.2045078, 55.3755503],
+[25.2044976, 55.3755596],
+[25.2044901, 55.3755759],
+[25.2044713, 55.3755679],
+ [25.2044581, 55.3755838],
+ [25.2044393, 55.3755854],
+ [25.2044077, 55.3755805],
+ [25.2043973, 55.3755997],
+ [25.204405, 55.3756138],
+ [25.2044013, 55.3755946],
+ [25.2043926, 55.3755649],
+ [25.2043919, 55.3755396],
+ [25.204393, 55.3755081],
+ [25.2043942, 55.37548],
+ [25.2043898, 55.3754658],
+ [25.2043939, 55.3754426],
+ [25.2043773, 55.3754622],
+ [25.2043579, 55.3754578],
+ [25.204328, 55.3754487],
+ [25.2043162, 55.3754406],
+ [25.2043059, 55.375458],
+ [25.2042828, 55.3754791],
+ [25.2042946, 55.3755116],
+ [25.2043095, 55.3755195],
+ [25.2043126, 55.3754763],
+ [25.2042748, 55.375463],
+ [25.204247, 55.3754549],
+ [25.204231, 55.3754397],
+ [25.2042024, 55.375454],
+ [25.2042265, 55.3754585],
+ [25.2042402, 55.3754422],
+ [25.2042581, 55.3754567],
+ [25.2042792, 55.3754619],
+ [25.2042972, 55.3754719],
+ [25.2043142, 55.3754747],
+ [25.2043378, 55.3754562],
+ [25.2043762, 55.3754619],
+ [25.2043961, 55.3754514],
+ [25.2044086, 55.3754238],
+ [25.2044354, 55.3754226],
+ [25.2044649, 55.3754242],
+ [25.2044786, 55.375463],
+ [25.2044745, 55.3754921],
+ [25.2044738, 55.3755333],
+ [25.204491, 55.3755642],
+ [25.2045104, 55.3755566],
+ [25.2045387, 55.3755532],
+ [25.2045609, 55.3755336],
+ [25.2045532, 55.3755091],
+ [25.2045458, 55.3755131],
+ [25.2045458, 55.3755203],
+ [25.2045564, 55.3755118],
+ [25.2045669, 55.3755042]];
+var fireFighter01 = [fireFighter01_locs[0]];
+    // create markers
+    fireFighter01.forEach(function(pos) {
+      markers.push(new H.map.DomMarker({lat: pos[0], lng: pos[1]}, {
+        icon: domIcon
+      }));
+    });
+    // initialPositions.forEach(function(pos) {
+    //   markers.push(new H.map.DomMarker({lat: pos[0], lng: pos[1]}, {
+    //     icon: domIcon
+    //   }));
+    // });
+
+    // add markers to map
+    map.addObjects(markers);
+
+            //logic to add map object (marker) to the current active venue
+            venuesProvider.activeVenue.setMapObjects(
+                markers,
+          venuesProvider.activeVenue.getActiveLevelIndex(),
+          venuesProvider.activeVenue.getActiveDrawing()
+        );  
+    // randomly update all markers positions in intervals
+    setTimeout(updateMarkerPositions, 500);
+    setInterval(updateMarkerPositions, 2500);
+
+    var index = 0;
+
+    /**
+     * update all markers' positions with animation using the ease function
+     */
+    function updateMarkerPositions() {
+        if (index == fireFighter01_locs.length) {
+            return;
+        } else {
+            index++;
+        }
+
+        
+      markers.forEach(function(marker) {
+        // get random position 0 - 450km from map's center in random direction
+        
+        let nextPoint = {lat: fireFighter01_locs[index][0], lng: fireFighter01_locs[index][1]};
+
+        // update marker's position within ease function callback
+        ease(
+          marker.getGeometry(),
+          nextPoint,
+          4000,
+          function(coord) {
+            marker.setGeometry(coord);
+          }
+        )
+      })
+    }
+    // /**
+    //  * update all markers' positions with animation using the ease function
+    //  */
+    // function updateMarkerPositions() {
+    //   markers.forEach(function(marker) {
+    //     // get random position 0 - 450km from map's center in random direction
+    //     let randomPoint = map.getCenter().walk(Math.random() * 360, Math.random() * 450000);
+
+    //     // update marker's position within ease function callback
+    //     ease(
+    //       marker.getGeometry(),
+    //       randomPoint,
+    //       4000,
+    //       function(coord) {
+    //         marker.setGeometry(coord);
+    //       }
+    //     )
+    //   })
+    // }
+}
+
+/**
+ * Ease function
+ * @param   {H.geo.IPoint} startCoord   start geo coordinate
+ * @param   {H.geo.IPoint} endCoord     end geo coordinate
+ * @param   number durationMs           duration of animation between start & end coordinates
+ * @param   function onStep             callback executed each step
+ * @param   function onStep             callback executed at the end
+ */
+function ease(
+  startCoord = {lat: 0, lng: 0},
+  endCoord = {lat: 1, lng: 1},
+  durationMs = 200,
+  onStep = console.log,
+  onComplete = function() {},
+) {
+  var raf = window.requestAnimationFrame || function(f) {window.setTimeout(f, 16)},
+      stepCount = durationMs / 16,
+      valueIncrementLat = (endCoord.lat - startCoord.lat) / stepCount,
+      valueIncrementLng = (endCoord.lng - startCoord.lng) / stepCount,
+      sinValueIncrement = Math.PI / stepCount,
+      currentValueLat = startCoord.lat,
+      currentValueLng = startCoord.lng,
+      currentSinValue = 0;
+
+  function step() {
+    currentSinValue += sinValueIncrement;
+    currentValueLat += valueIncrementLat * (Math.sin(currentSinValue) ** 2) * 2;
+    currentValueLng += valueIncrementLng * (Math.sin(currentSinValue) ** 2) * 2;
+
+    if (currentSinValue < Math.PI) {
+      onStep({lat: currentValueLat, lng: currentValueLng});
+      raf(step);
+    } else {
+      onStep(endCoord);
+      onComplete();
+    }
+  }
+
+  raf(step);
+}
+
+
+/**
+ * Load and add venue data on the map.
+ *
+ * @param  {H.Map} map A HERE Map instance
+ */
+ function addVenueToMap(map) {
+  // Get instance of venues service using valid apikey for venues
+  // const venuesService = platform.getVenuesService({ apikey: 'pmYeJOpIGhJHSyyizwSKKPJoAHdjJ_bj12yfckgiT4E' });
+  
+
+  // // Venues provider interacts with tile layer to visualize and control the venue map
+  // const venuesProvider = new H.venues.Provider();
+
+  // Venues service provides a loadVenue method
+  venuesService.loadVenue(27608).then((venue) => {
+    venuesProvider.addVenue(venue);
+    venuesProvider.setActiveVenue(venue);
+
+    // create a tile layer for the venues provider
+    map.addLayer(new H.map.layer.TileLayer(venuesProvider));
+
+    // create level control
+    const levelControl = new H.venues.ui.LevelControl(venue);
+    ui.addControl('level-control', levelControl);
+
+    // create drawing control:
+    const drawingControl = new H.venues.ui.DrawingControl(venue);
+    ui.addControl('drawing-control', drawingControl);
+
+   // get the shape's bounding box and adjust the camera position
+   map.getViewModel().setLookAtData({
+      bounds: venue.getBoundingBox()
+    }, true);
+
+    //createMarkers();
+
+  //register on venue level change event
+    venue.addEventListener(H.venues.Venue.EVENTS.LEVEL_CHANGE, (event) => {
+      onVenueLevelChange(event);
+});
+
+// venue.getGeometries().forEach((venueGeomtry)=>{
+//   venueGeomtry.addEventListener('tap', (event) => {
+//       console.log(event);
+// });
+// });
+
+  });
+}
+
+
+var arr = []
+
+/**
+ * An event listener is added to listen to tap events on the map.
+ * Clicking on the map displays an alert box containing the latitude and longitude
+ * of the location pressed.
+ * @param  {H.Map} map      A HERE Map instance within the application
+ */
+ function setUpMapClickListener(map) {
+
+try{
+
+            // Attach an event listener to map display
+            // obtain the coordinates and display in an alert box.
+            map.addEventListener('tap', function (evt) {
+                var coord = map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
+
+
+                  arr.push([Math.abs(coord.lat.toFixed(7)),
+                     Math.abs(coord.lng.toFixed(7))]);
+                    // console.log('Clicked at ' + Math.abs(coord.lat.toFixed(4)) +
+                    //     ((coord.lat > 0) ? 'N' : 'S') +
+                    //     ' ' + Math.abs(coord.lng.toFixed(4)) +
+                    //     ((coord.lng > 0) ? 'E' : 'W'));
+
+                    // console.log(Math.abs(coord.lat.toFixed(7)),
+                    //  Math.abs(coord.lng.toFixed(7))
+                    // );
+
+console.log (arr);
+
+            });
+          } catch (error) {
+    console.error(error);
+  }
+}
+
+
+/**
+ * Boilerplate map initialization code starts below:
+ */
+
+// set up containers for the map  + panel
+var mapContainer = document.getElementById('map'),
+  routeInstructionsContainer = document.getElementById('panel');
+
+//Step 1: initialize communication with the platform
+// In your own code, replace variable window.apikey with your own apikey
+var platform = new H.service.Platform({
+  apikey: 'pmYeJOpIGhJHSyyizwSKKPJoAHdjJ_bj12yfckgiT4E'
+});
+
+var defaultLayers = platform.createDefaultLayers();
+
+//Step 2: initialize a map - this map is centered over Berlin
+var map = new H.Map(mapContainer,
+  defaultLayers.vector.normal.map,{
+  center: {lat: 25.19893,lng: 55.27991},
+  zoom: 6,
+  pixelRatio: (window.devicePixelRatio && window.devicePixelRatio > 1) ? 2 : 1
+});
+// add a resize listener to make sure that the map occupies the whole container
+window.addEventListener('resize', function () {
+  map.getViewPort().resize();
+});
+
+//Step 3: make the map interactive
+// MapEvents enables the event system
+// Behavior implements default interactions for pan/zoom (also on mobile touch environments)
+var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+// Create the default UI components
+var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+// Venues provider interacts with tile layer to visualize and control the venue map
+const venuesProvider = new H.venues.Provider();
+  const venuesService = platform.getVenuesService({ apikey: 'UFykqZqE8BtxnVnLxaA_tf71CB_yEW94BujWeUHxIR4' });
+
+addVenueToMap(map);
+
+setUpMapClickListener(map);
+// Now create markers and set interval to update their positions with animation.
+//createMarkers();
+    </script>
+  </body>
+</html>

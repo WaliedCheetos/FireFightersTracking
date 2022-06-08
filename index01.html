@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Fire Fighters Tracking</title>
+
+    <!-- Social -->
+    <link rel="icon" type="image/png" sizes="16x16" href="./resources/icons/favicon.ico" />
+
+  <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+  <link rel="stylesheet" type="text/css" href="./css/index.css" />
+
+  <script src="https://unpkg.com/@here/tracking-js@2.0.40/lib/HERETracking.min.js"></script>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/HEREAccountHelper.js"></script>
+
+  <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+  <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+  <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+  <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+  <script type="text/javascript" src="https://js.api.here.com/v3/3.1.30.15/mapsjs-venues.js"></script>
+ 
+  <script src="./js/app01.js"></script>
+
+</head>
+
+<body class="mapView">
+  <h1></h1>
+  <div id="map"></div>
+  <div id="info">
+    <address></address>
+    <time></time>
+  </div>
+  <ul id="buttons">
+    <li id="back"><img src="./resources/buttons/back.png"></li>
+    <li id="trace"><img src="./resources/buttons/trace.png"></li>
+    <li id="refresh"><img src="./resources/buttons/refresh.png"></li>
+  </ul>
+  <div id="loading"></div>
+</body>
+
+<script type="text/javascript"> 
+
+      app.initHEREMaps();
+      app.initHERETracking();
+
+</script>
+
+</html>
